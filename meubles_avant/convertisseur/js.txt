@@ -1,0 +1,30 @@
+<script>
+var chemins = chemins_toto
+
+var NUM_POINTS = 1000;
+
+var points = ""; <!-- var points = points.concat("{"); -->
+
+for (var f=0; f < chemins.length;f++) { console.log(chemins[f]); var
+		  path = document.getElementById(chemins[f]); var len
+		  = path.getTotalLength(); var points =
+		  points.concat("",chemins[f]); var points =
+		  points.concat("",":");
+
+		  for (var i=0; i < NUM_POINTS; i++ )
+				    {
+				    var pt = path.getPointAtLength(i * len / (NUM_POINTS-1));
+				    if (i == 0) {
+				    var points = points.concat("", pt.x);
+				    var points = points.concat(" ", pt.y);
+				    }
+				    else {
+				    var points = points.concat(" ", pt.x);
+				    var points = points.concat(" ", pt.y);}
+				    }
+				    var points = points.concat("",",");
+				    }
+				    <!-- var points = points.concat("","}"); -->
+				    <!-- console.log("points = ", points); -->
+				    download(points, 'filename.txt', 'text/plain');
+				    </script>

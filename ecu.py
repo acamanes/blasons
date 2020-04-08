@@ -11,6 +11,7 @@
 
 import matplotlib.pyplot as plt
 from matplotlib import path
+import matplotlib.hatch
 
 
 from ecu_external import *
@@ -61,12 +62,14 @@ class Ecu:
         ajoute_dessin(self.dessins, (d, email))
 
     def partition(self,
-                  partition="plain",
-                  emaux=["gueules"]):
+                  nom = "plain",
+                  emaux = ["gueules"]):
         """
         partition : type de partition
         emaux : liste des couleurs
         """
+        # Ca c'est crado !! A changer :-)
+        partition = nom
         # Contour du blason a partitionner
         nom = self.forme
         # Parition est soit un couple ligne/col, soit un nom
@@ -129,12 +132,12 @@ class Ecu:
             djoli.append(dico)
         return djoli
 
-    def piece(self, type=None, email=["or"]):
+    def piece(self, nom=None, email=["or"]):
         """Trace les pieces
         email : couleur de la piece
         """
         # Lecture des pieces choisies
-        (nrows,ncols), selection = pieces[type]
+        (nrows,ncols), selection = pieces[nom]
         # Decoupage du blason en partitions
         if ncols == "tranché":
             # d = self.oldpartition_oblique(self.forme, nrows, 1)
@@ -158,7 +161,7 @@ class Ecu:
                 
 
     def meuble(self,
-               position = 1,
+               # position = 1,
                nom = "lion rampant",
                emaux=["or"],
                contourne = False,
@@ -176,9 +179,9 @@ class Ecu:
         left, right = -self.width/2, self.width/2
         top, bottom = self.height/2, -self.height*(0.4)
         # Translate le meuble en presence du chef
-        c = 0
+        tx, ty = 0, 0
         if self.ischef:
-            c = 0.5
+            tx, ty = 0, -0.1
         # Position du centre en coordonnees barycentriques
         # p = position-1
         # row = p // self.ncols
@@ -191,15 +194,15 @@ class Ecu:
         # Echelle en largeur/hauteur a appliquer au meuble
         scw, sch = 1, 1
         if self.ischef:
-            sch = 2/3
+            sch = 0.8
         # sh = sch * 0.5 * 1/self.nrows * echelle
         # sw = scw * 0.5 * 1/self.ncols * echelle
         sh = sch * 0.5 * echelle
         sw = scw * 0.5 * echelle
 
         # Positions et echelle
-        pos = [self.xcenter+translation[0] + b[0][0]*left+b[0][1]*right,\
-                self.ycenter+translation[1] + b[1][0]*top+b[1][1]*bottom]
+        pos = [self.xcenter+translation[0] + tx*self.width + b[0][0]*left + b[0][1]*right,\
+                self.ycenter+translation[1] + ty*self.height + b[1][0]*top + b[1][1]*bottom]
         scale = (sw * self.width, sh * self.height)
         # Image positionnee et Mise a l echelle
         fd, Xdim, Ydim = image(meubles[nom], scale, pos,
@@ -211,7 +214,7 @@ class Ecu:
                      piece = "chef",
                      nom = "lion",
                      emaux=["or"],
-                     nbre=1,
+                     nombre=1,
                      translation=[0,0],
                      echelle=1,
                      contourne=False):
@@ -225,14 +228,14 @@ class Ecu:
         """
         # Extremites du blason
         left, right = self.xcenter-self.width/2, self.xcenter+self.width/2
-        top, bottom = self.ycenter+self.height/2, self.ycenter+self.height/2-self.height/3
-        for i in range(nbre):
+        top, bottom = self.ycenter+self.height/2, self.ycenter+self.height/2-self.height/4
+        for i in range(nombre):
             # Position du centre en coordonnees barycentriques
-            b =(((1+i)/(1+nbre),1-(1+i)/(1+nbre)),(1/2,1/2))
+            b =(((1+i)/(1+nombre),1-(1+i)/(1+nombre)),(1/2,1/2))
             # Echelle en largeur/hauteur a appliquer au meuble
-            scw, sch = 1, 1
-            sh = sch * 0.5 * echelle
-            sw = scw * 0.5 * echelle
+            scw, sch = 0.5, 0.5
+            sh = sch * echelle
+            sw = scw * echelle
 
             # Positions et echelle
             pos = [translation[0] + b[0][0]*left+b[0][1]*right,\
@@ -243,7 +246,8 @@ class Ecu:
             ajoute_dessin(self.dessins, (fd, emaux))
 
         
-    def dessine(self, nom):
+    def dessine(self, fichier="mon_blase"):
+        plt.close()
         fig = plt.figure()
         ax = fig.add_subplot(1, 1, 1)        
         # self.
@@ -260,4 +264,5 @@ class Ecu:
         for i in range(len(d)):
             (contour, email) = d[i]
             draw_polygon(contour, email, z=z0+i*k)
-        fig.savefig(nom+".pdf")
+        fig.savefig(fichier+".pdf")
+        fig.savefig(fichier+".png")

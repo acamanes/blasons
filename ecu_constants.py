@@ -58,11 +58,12 @@ parts["coticé en barres"]=(10, "taillé")
 # Pieces
 pieces = OrderedDict()
 # 1 piece
-pieces["chef"]=((3,1),[0])
-pieces["pal"]=((1,3),[1])
+pieces["chef"]=((4,1),[0]) # Triche pour avoir + petit
+pieces["pal"]=((1,3),[2])
 pieces["fasce"]=((3,1),[1])
-pieces["bande"]=((3,"tranché"),[1])
-pieces["barre"]=((3,"taillé"),[1])
+pieces["bande"]=((5,"tranché"),[2]) # Triche pour avoir + petit
+pieces["barre"]=((5,"taillé"),[2]) # Triche pour avoir + petit
+
 # 2 pieces
 pieces["2 pals"]=((1,5),[1,3])
 pieces["2 fasces"]=((5,1),[1,3])

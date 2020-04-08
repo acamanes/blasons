@@ -1,0 +1,46 @@
+<script>
+  var chemins = ['f101', 'l101', 'f103', 'f201', 'l102', 'l103',
+  'l104', 'l105', 'l106', 'l107', 'l108', 'l109', 'l113', 'l112',
+  'l114', 'l115', 'l116', 'l117', 'l118', 'l119', 'l120', 'l111',
+  'l121', 'l122', 'l123', 'l124', 'l125', 'l126', 'l127', 'l128',
+  'l129', 'l130', 'l131', 'l132', 'l133', 'l134', 'l135', 'l136',
+  'l137', 'l138']
+
+
+  <!-- cerbere
+  ["f11","f12","f13","f14","f15","f16","f18","f19","f110","f111","f112","f113","f114","l1","f21","f22","f23","f24","f25","f26","f27","f28","f29","f210","f211","f212","f213","f31","f32","f33","f41","f42","f43"];
+  --> <!-- arbre arrache ["f12","f2"]; -->
+
+  <!-- blasons : ["f1"]; -->
+
+  <!-- lion :
+  ["f11","f12","f13","f14","f15","f21","f31","f32","f34","f35","f36","f37","f38","f39","f310","f311","f312","f313","f314","f315","f316","f317","l1"];
+  -->
+
+var NUM_POINTS = 1000;
+
+var points = ""; <!-- var points = points.concat("{"); -->
+
+for (var f=0; f < chemins.length;f++) { console.log(chemins[f]); var
+		  path = document.getElementById(chemins[f]); var len
+		  = path.getTotalLength(); var points =
+		  points.concat("",chemins[f]); var points =
+		  points.concat("",":");
+
+		  for (var i=0; i < NUM_POINTS; i++ )
+				    {
+				    var pt = path.getPointAtLength(i * len / (NUM_POINTS-1));
+				    if (i == 0) {
+				    var points = points.concat("", pt.x);
+				    var points = points.concat(" ", pt.y);
+				    }
+				    else {
+				    var points = points.concat(" ", pt.x);
+				    var points = points.concat(" ", pt.y);}
+				    }
+				    var points = points.concat("",",");
+				    }
+				    <!-- var points = points.concat("","}"); -->
+				    <!-- console.log("points = ", points); -->
+				    download(points, 'filename.txt', 'text/plain');
+				    </script>

@@ -39,3 +39,8 @@ plt.axis("equal")
 ax.axis("off")
 
 plt.savefig("presentation_pieces.png")
+plt.savefig("presentation_pieces.ps",
+            papertype="a4",
+            orientation="landscape")
+import os
+os.system("ps2pdf presentation_pieces.ps")

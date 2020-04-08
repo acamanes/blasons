@@ -103,14 +103,19 @@ def draw_polygon(fd, emaux=["or"], z=-100):
             # Numero de groupe
             gpe = int(path[1])-1
             plt.fill(X, Y,
-                     color=emailtocouleur[emaux[gpe%len(emaux)]],
+                     facecolor=emailtocouleur[emaux[gpe%len(emaux)]],
                      # edgecolor="k",
-                     zorder=z+10*gpe)
+                     zorder=z+gpe,
+                     edgecolor="black",
+                     linewidth=0.5,
+            )
             # Trace des contours
-            plt.plot(X, Y, color="k", zorder=z+10*gpe)
+            # plt.plot(X, Y, color="k", zorder=z+10*gpe,
+                     # linewidth=0.1)
         else:
             # Trace des contours au dessus de tous les groupes
-            plt.plot(X, Y, color="k", zorder=z+10*(ngpes+1))
+            plt.plot(X, Y, color="k", zorder=z+(ngpes+1),
+                     linewidth=0.1)
 
 def distance(a, b):
     return ((a[0] - b[0])**2 + (a[1] - b[1])**2)**(1/2)
@@ -209,7 +214,7 @@ def new_is_in_blason(p, poly):
                 elif x < min(p1x, p2x):
                     cpt += 1
                     inside = not inside
-                    print(x, y, inside)
+                    # print(x, y, inside)
         elif min(p1y,p2y) < y < max(p1y,p2y):
             test = x - ((y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x)
             if abs(test) <= epsilon:
@@ -236,7 +241,7 @@ def is_in_blason(p, poly):
                     return True
                 elif x < min(p1x, p2x)-epsilon:  # point is to the left from current edge
                     inside = not inside
-                    print(inside, x, y)
+                    # print(inside, x, y)
         else:  # p1y!= p2y
             if min(p1y, p2y)+epsilon <= y <= max(p1y, p2y)-epsilon:
                 xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
@@ -244,7 +249,7 @@ def is_in_blason(p, poly):
                     return True
                 if x < xinters-epsilon:  # point is to the left from current edge
                     inside = not inside
-                    print(inside, x, y)
+                    # print(inside, x, y)
         p1x, p1y = p2x, p2y
     return inside
 

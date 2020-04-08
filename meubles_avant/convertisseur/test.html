@@ -1,0 +1,131 @@
+<script>
+function download(strData, strFileName, strMimeType) {
+    var D = document,
+        A = arguments,
+        a = D.createElement("a"),
+        d = A[0],
+        n = A[1],
+        t = A[2] || "text/plain";
+
+    //build download link:
+    a.href = "data:" + strMimeType + "charset=utf-8," + escape(strData);
+
+
+    if (window.MSBlobBuilder) { // IE10
+        var bb = new MSBlobBuilder();
+        bb.append(strData);
+        return navigator.msSaveBlob(bb, strFileName);
+    } /* end if(window.MSBlobBuilder) */
+
+
+
+    if ('download' in a) { //FF20, CH19
+        a.setAttribute("download", n);
+        a.innerHTML = "downloading...";
+        D.body.appendChild(a);
+        setTimeout(function() {
+            var e = D.createEvent("MouseEvents");
+            e.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            a.dispatchEvent(e);
+            D.body.removeChild(a);
+        }, 66);
+        return true;
+    }; /* end if('download' in a) */
+
+
+
+    //do iframe dataURL download: (older W3)
+    var f = D.createElement("iframe");
+    D.body.appendChild(f);
+    f.src = "data:" + (A[2] ? A[2] : "application/octet-stream") + (window.btoa ? ";base64" : "") + "," + (window.btoa ? window.btoa : escape)(strData);
+    setTimeout(function() {
+        D.body.removeChild(f);
+    }, 333);
+    return true;
+}
+</script>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="188"
+   height="195"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="vair.svg">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1233"
+     inkscape:window-height="776"
+     id="namedview6"
+     showgrid="false"
+     inkscape:zoom="2.9641827"
+     inkscape:cx="94"
+     inkscape:cy="97.5"
+     inkscape:window-x="47"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <path
+     d="M 0,195 40,155 40,48 94,0 l 54,46 0,107 40,42 z"
+     id="f101"
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#000000;stroke-opacity:1"
+     sodipodi:nodetypes="cccccccc" />
+</svg>
+<script>
+var chemins = ['f101']
+
+var NUM_POINTS = 1000;
+
+var points = ""; <!-- var points = points.concat("{"); -->
+
+for (var f=0; f < chemins.length;f++) { console.log(chemins[f]); var
+		  path = document.getElementById(chemins[f]); var len
+		  = path.getTotalLength(); var points =
+		  points.concat("",chemins[f]); var points =
+		  points.concat("",":");
+
+		  for (var i=0; i < NUM_POINTS; i++ )
+				    {
+				    var pt = path.getPointAtLength(i * len / (NUM_POINTS-1));
+				    if (i == 0) {
+				    var points = points.concat("", pt.x);
+				    var points = points.concat(" ", pt.y);
+				    }
+				    else {
+				    var points = points.concat(" ", pt.x);
+				    var points = points.concat(" ", pt.y);}
+				    }
+				    var points = points.concat("",",");
+				    }
+				    <!-- var points = points.concat("","}"); -->
+				    <!-- console.log("points = ", points); -->
+				    download(points, 'filename.txt', 'text/plain');
+				    </script>

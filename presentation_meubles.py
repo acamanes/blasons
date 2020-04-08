@@ -6,6 +6,8 @@ taille = 80
 space = 40
 emaux = ["argent"]
 liste_meubles = list(meubles.keys())
+liste_meubles.sort()
+print(liste_meubles)
 
 nbre = len(liste_meubles)//5
 
