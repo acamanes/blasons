@@ -1,4 +1,7 @@
 import matplotlib.pyplot as plt
+from matplotlib import path
+import matplotlib.hatch
+from matplotlib.patches import Polygon
 
 precision = 15
 epsilon = 10**(-precision)
@@ -15,6 +18,12 @@ emailtocouleur = {
                   "or": "yellow",
                   "argent": "white"
                   }
+
+def fourruretocle(s):
+    if s == "hermine":
+        return "hermine0" + "hermine1" + "hermine2" + "hermine3"
+    else:
+        return s
 
 def center(liste, lmin, lmax):
     """Centere les listes autour de (lmin+lmax)/2"""
@@ -102,16 +111,22 @@ def draw_polygon(fd, emaux=["or"], z=-100):
         if path[0] == "f":
             # Numero de groupe
             gpe = int(path[1])-1
-            plt.fill(X, Y,
-                     facecolor=emailtocouleur[emaux[gpe%len(emaux)]],
-                     # edgecolor="k",
-                     zorder=z+gpe,
-                     edgecolor="black",
-                     linewidth=0.5,
-            )
-            # Trace des contours
-            # plt.plot(X, Y, color="k", zorder=z+10*gpe,
-                     # linewidth=0.1)
+            try:
+                four, [em0, em1] = emaux[gpe%len(emaux)]
+                plt.fill(X, Y, hatch=fourruretocle(four),
+                         edgecolor=emailtocouleur[em0],
+                         facecolor=emailtocouleur[em1],
+                         zorder=z+gpe)
+                plt.plot(X, Y, color="black",
+                         zorder=z+gpe)
+            except:
+                em = emaux[gpe%len(emaux)]
+                plt.fill(X, Y,
+                         facecolor=emailtocouleur[em],
+                         zorder=z+gpe,
+                         edgecolor="black",
+                         linewidth=0.5,
+                )                
         else:
             # Trace des contours au dessus de tous les groupes
             plt.plot(X, Y, color="k", zorder=z+(ngpes+1),

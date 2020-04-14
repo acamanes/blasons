@@ -1,16 +1,12 @@
 from ecu import *
-
-# Creation de l ecu
-# La forme "moderne" fonctionne bien
-# La forme "ancien" non...
-# email : couleur du blason
 monblase = Ecu(
     forme="moderne",
-    email=["or"],
+    email=[("hermine", ["sable", "argent"])],
 )
-
-monblase.meuble(nom="aigle au vol abaissé",
-          emaux=["sable","gueules","or","gueules","argent"])
-
-# Enregistrement du fichier avec possibilite de choisir le nom
+monblase.piece(
+    nom="chef",
+    email=[("vair", ["or", "azur"])]
+)
+monblase.meuble(nom="marmitte",
+                emaux=["gueules","sable"])
 monblase.dessine(fichier="aigle_blase")

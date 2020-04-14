@@ -23,6 +23,12 @@ formes["carré"] = {"f1":((-100,-100,100,100,-100), (100,-100,-100,100,100))},\
 formes["losange"] = {"f1":((0,-100,0,100,0), (100,0,-100,0,100))},\
                   (200,200),(0,0)
 
+# Fourrures
+fourruresliste = OrderedDict()
+fourruresliste["vair"] = txttoimg("./meubles/vair.txt")
+fourruresliste["hermine"] = txttoimg("./meubles/hermine.txt")
+
+
 # Partitions
 parts = OrderedDict()
 # 
@@ -184,3 +190,118 @@ hermine = txttoimg("./meubles/hermine.txt")
 meubles["hermine"]=hermine # 
 attributs["hermine"] = ["Hermine"]
 #-----
+
+
+
+#################
+
+# Definition des fourrures
+vair = fourruresliste["vair"]
+herminep = fourruresliste["hermine"]
+
+hvair, width, height = image(vair, (1,1), (0,0), sy=False, proportional=True)
+vair_path = Polygon(
+    [[hvair["f101"][0][i], hvair["f101"][1][i]] for i in range(len(hvair["f101"][0]))],
+    closed=True, fill=False).get_path()
+
+hhermine, width, height = image(herminep, (1,1), (0,0), sy=False, proportional=True)
+
+hermine_path = [
+    Polygon(
+        [[hhermine["f10"+n][0][i], hhermine["f10"+n][1][i]] for i in range(len(hhermine["f10"+n][0]))],
+        closed=True, fill=False).get_path()
+    for n in "1234"]
+
+    
+hermine1_path = Polygon(
+    [[hhermine["f101"][0][i], hhermine["f101"][1][i]] for i in range(len(hhermine["f101"][0]))] +
+    [[hhermine["f102"][0][i], hhermine["f102"][1][i]] for i in range(len(hhermine["f102"][0]))] +
+    [[hhermine["f103"][0][i], hhermine["f103"][1][i]] for i in range(len(hhermine["f103"][0]))],
+    closed=True, fill=True).get_path()
+
+hermine2_path = Polygon(
+    [[hhermine["f104"][0][i], hhermine["f104"][1][i]] for i in range(len(hhermine["f104"][0]))],
+                       closed=True, fill=True).get_path()
+
+
+class VairHatch(matplotlib.hatch.Shapes):
+    """
+    Custom hatches defined by a path drawn inside [-0.5, 0.5] square.
+    Identifier 'vair'.
+    """
+    filled = True
+    size = 1
+    path = vair_path
+
+    def __init__(self, hatch, density):
+        self.num_rows = (hatch.count('vair')) * 2
+        self.shape_vertices = self.path.vertices
+        self.shape_codes = self.path.codes
+        matplotlib.hatch.Shapes.__init__(self, hatch, density)
+
+class Hermine0Hatch(matplotlib.hatch.Shapes):
+    """
+    Custom hatches defined by a path drawn inside [-0.5, 0.5] square.
+    Identifier 'hermine'.
+    """
+    filled = True
+    size = 1.0
+    path = hermine_path[0]
+
+    def __init__(self, hatch, density):
+        self.num_rows = (hatch.count('hermine0')) * 2
+        self.shape_vertices = self.path.vertices
+        self.shape_codes = self.path.codes
+        matplotlib.hatch.Shapes.__init__(self, hatch, density)
+
+class Hermine1Hatch(matplotlib.hatch.Shapes):
+    """
+    Custom hatches defined by a path drawn inside [-0.5, 0.5] square.
+    Identifier 'hermine'.
+    """
+    filled = True
+    size = 1.0
+    path = hermine_path[1]
+
+    def __init__(self, hatch, density):
+        self.num_rows = (hatch.count('hermine1')) * 2
+        self.shape_vertices = self.path.vertices
+        self.shape_codes = self.path.codes
+        matplotlib.hatch.Shapes.__init__(self, hatch, density)
+
+class Hermine2Hatch(matplotlib.hatch.Shapes):
+    """
+    Custom hatches defined by a path drawn inside [-0.5, 0.5] square.
+    Identifier 'hermine'.
+    """
+    filled = True
+    size = 1.0
+    path = hermine_path[2]
+
+    def __init__(self, hatch, density):
+        self.num_rows = (hatch.count('hermine2')) * 2
+        self.shape_vertices = self.path.vertices
+        self.shape_codes = self.path.codes
+        matplotlib.hatch.Shapes.__init__(self, hatch, density)
+    
+class Hermine3Hatch(matplotlib.hatch.Shapes):
+    """
+    Custom hatches defined by a path drawn inside [-0.5, 0.5] square.
+    Identifier 'hermine'.
+    """
+    filled = True
+    size = 1.0
+    path = hermine_path[3]
+
+    def __init__(self, hatch, density):
+        self.num_rows = (hatch.count('hermine3')) * 2
+        self.shape_vertices = self.path.vertices
+        self.shape_codes = self.path.codes
+        matplotlib.hatch.Shapes.__init__(self, hatch, density)
+
+        
+matplotlib.hatch._hatch_types.append(VairHatch)
+matplotlib.hatch._hatch_types.append(Hermine0Hatch)
+matplotlib.hatch._hatch_types.append(Hermine1Hatch)
+matplotlib.hatch._hatch_types.append(Hermine2Hatch)
+matplotlib.hatch._hatch_types.append(Hermine3Hatch)

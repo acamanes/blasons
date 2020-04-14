@@ -1,13 +1,7 @@
 # TODO : 
 # Meubles dans le chef : sans repetition ?
 # Reprendre ecu ancien - D'autres ecus ?
-
-# Ordre des décisions :
-# A. choix de la taille, de la forme, de la couleur si plain
-#    Doit contenir une liste de blasons et, pour chacun des pieces / meubles ? (a tracer a la fin)
-# B. choix eventuel de la partition
-# C. Ajout des pieces et meubles
-# D. Trace
+# Taille des hatch dans partition
 
 import matplotlib.pyplot as plt
 from matplotlib import path
@@ -78,10 +72,8 @@ class Ecu:
         else:
             nrows, ncols = partition
         if ncols == "tranché":
-            # sousecus = self.oldpartition_oblique(nom, nrows, 1)
             sousecus = self.partition_oblique(nom, (nrows, ncols))
         elif ncols == "taillé":
-            # sousecus = self.oldpartition_oblique(nom, nrows, -1)
             sousecus = self.partition_oblique(nom, (nrows, ncols))
         else :
             self.nrows = nrows
@@ -91,15 +83,20 @@ class Ecu:
         sousblasons = []
         for (k, contour) in enumerate(sousecus):
             if contour["X"] != []:
+                # if fourrures != None:
+                    # f = fourrures[k%len(fourrures)]
+                # else:
+                    # f = None
                 dcontour = {"f1":(contour["X"], contour["Y"])}
                 Xmin, Xmax = min(contour["X"]), max(contour["X"])
                 Ymin, Ymax = min(contour["Y"]), max(contour["Y"])
                 b = Ecu(forme=dcontour,
-                           taille = (Xmax-Xmin, Ymax-Ymin),
-                           centre= ((Xmax+Xmin)/2, (Ymax+Ymin)/2),
-                           dessins = self.dessins,
-                           email = [emaux[k%len(emaux)]],
-                           parent=False)
+                        taille = (Xmax-Xmin, Ymax-Ymin),
+                        centre= ((Xmax+Xmin)/2, (Ymax+Ymin)/2),
+                        dessins = self.dessins,
+                        # fourrure = f,
+                        email = [emaux[k%len(emaux)]],
+                        parent=False)
                 sousblasons.append(b)
         return sousblasons
 
@@ -181,22 +178,13 @@ class Ecu:
         # Translate le meuble en presence du chef
         tx, ty = 0, 0
         if self.ischef:
-            tx, ty = 0, -0.1
+            tx, ty = 0, -0.15
         # Position du centre en coordonnees barycentriques
-        # p = position-1
-        # row = p // self.ncols
-        # col = p % self.ncols
-        # b = ([1-(1+2*col)/(2*self.ncols),
-              # (1+2*col)/(2*self.ncols)],
-             # [1-(1+2*row+c)/(2*self.nrows),
-              # (1+2*row)/(2*self.nrows)])
         b = ([1/2,1/2],[1/2,1/2])
         # Echelle en largeur/hauteur a appliquer au meuble
         scw, sch = 1, 1
         if self.ischef:
-            sch = 0.8
-        # sh = sch * 0.5 * 1/self.nrows * echelle
-        # sw = scw * 0.5 * 1/self.ncols * echelle
+            sch = 0.9
         sh = sch * 0.5 * echelle
         sw = scw * 0.5 * echelle
 
@@ -263,6 +251,7 @@ class Ecu:
         k = int(abs(z0)//len(d))
         for i in range(len(d)):
             (contour, email) = d[i]
-            draw_polygon(contour, email, z=z0+i*k)
+            draw_polygon(contour,
+                         emaux = email, z=z0+i*k)
         fig.savefig(fichier+".pdf")
-        fig.savefig(fichier+".png")
+        fig.savefig(fichier+".png", dpi=300)

@@ -24,7 +24,7 @@ b1.piece(nom="chef", email=["azur"])
 # Liste des meubles disponibles sur 
 b1.meuble_piece(piece="chef",
                 nom="fleur de lys",
-                nbre = 5,
+                nombre = 5,
                 emaux=["or"])
 
 b1.meuble(nom="aigle au vol abaissé",
@@ -55,16 +55,15 @@ b14.meuble(nom="tortue",
 
 [b21,b22,b23,b24] = b2.partition(
     nom = "écartelé",
-    emaux=["or", "gueules","gueules","or"])
-b3.partition(nom = "fascé",emaux=["gueules","or"])
+    emaux=["or", ("hermine", ["or", "gueules"]),"gueules","or"])
 b21.partition(nom = "fascé",emaux=["azur","sinople"])
 b22.piece(nom = "chef",email=["argent"])
 b22.meuble_piece(piece="chef",nom="ancre",
-                 nbre=4,
+                 nombre=4,
                  emaux=["gueules"])
 b22.meuble(nom="rat",
            translation=(0,-b22.height/6),
-        emaux=["argent","sable"])
+           emaux=["argent","sable"])
 
 b23.meuble(nom="cerbère",
            emaux=["argent","or","or","sable"])
@@ -72,6 +71,7 @@ b23.meuble(nom="cerbère",
 b24.partition(nom = "écartelé",
               emaux = ["azur","sinople","sinople","azur"])
 
+b3.partition(nom = "fascé",emaux=["gueules","or"])
 b3.meuble(nom="lion rampant",
           contourne=False,
           translation=(b3.width/5,0),
